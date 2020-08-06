@@ -1,10 +1,6 @@
 const fs = require("fs");
 const chalk = require("chalk");
 
-const getNotes = () => {
-  console.log("Your notes...");
-};
-
 const listNotes = () => {
   console.log(chalk.magenta.inverse("Your notes"));
   loadNotes().forEach((note) => {
@@ -39,6 +35,17 @@ const removeNote = (title) => {
   console.log(chalk.bgRed("No note found"));
 };
 
+const readNote = (title) => {
+  const notes = loadNotes();
+  const foundNote = notes.find((n) => n.title === title);
+  if (foundNote) {
+    console.log(chalk.magenta.inverse(foundNote.title));
+    console.log(foundNote.body);
+    return;
+  }
+  console.log(chalk.bgRed("No note found"));
+};
+
 const loadNotes = () => {
   try {
     const dataBuffer = fs.readFileSync("notes.json");
@@ -50,4 +57,4 @@ const loadNotes = () => {
   }
 };
 
-module.exports = { addNote, removeNote, getNotes, listNotes };
+module.exports = { addNote, removeNote, listNotes, readNote };
